@@ -23,7 +23,7 @@ interface MonitoredSite {
   avgResponseTime: number;
 }
 
-const PING_INTERVAL = 30_000; // 30 seconds
+const PING_INTERVAL = 10 * 60 * 1000;; // 10 minutes
 const MAX_HISTORY = 20;
 const STORAGE_KEY = "ping-sites";
 
