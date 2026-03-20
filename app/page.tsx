@@ -96,7 +96,7 @@ function Sparkline({ history }: { history: PingResult[] }) {
 function CountdownRing({ secondsLeft }: { secondsLeft: number }) {
   const radius = 20;
   const circ = 2 * Math.PI * radius;
-  const progress = secondsLeft / 30;
+  const progress = secondsLeft / 600;
   const dashoffset = circ * (1 - progress);
 
   return (
@@ -359,7 +359,7 @@ export default function Home() {
   const [newUrl, setNewUrl] = useState("");
   const [newLabel, setNewLabel] = useState("");
   const [addError, setAddError] = useState("");
-  const [secondsLeft, setSecondsLeft] = useState(30);
+  const [secondsLeft, setSecondsLeft] = useState(600);
   const [pingingIds, setPingingIds] = useState<Set<string>>(new Set());
   const [totalPings, setTotalPings] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -486,17 +486,17 @@ export default function Home() {
     pingAll();
 
     // Countdown
-    setSecondsLeft(30);
+    setSecondsLeft(600);
     if (countdownRef.current) clearInterval(countdownRef.current);
     countdownRef.current = setInterval(() => {
-      setSecondsLeft((s) => (s <= 1 ? 30 : s - 1));
+      setSecondsLeft((s) => (s <= 1 ? 600 : s - 1));
     }, 1000);
 
     // Main ping interval
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       pingAll();
-      setSecondsLeft(30);
+      setSecondsLeft(600);
     }, PING_INTERVAL);
 
     return () => {
@@ -609,7 +609,7 @@ export default function Home() {
           </h1>
           <p style={{ color: "var(--text-secondary)", fontSize: "16px", maxWidth: "480px" }}>
             Automatically keeps your Render apps awake by pinging them every{" "}
-            <span style={{ color: "#60a5fa", fontWeight: 600 }}>30 seconds</span>.
+            <span style={{ color: "#60a5fa", fontWeight: 600 }}>10 minutes</span>.
           </p>
         </div>
 
@@ -692,11 +692,11 @@ export default function Home() {
                   className="mono"
                   style={{ color: "#60a5fa", fontSize: "18px" }}
                 >
-                  {secondsLeft}s
+                  {Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, "0")}
                 </span>
               </div>
               <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "2px" }}>
-                All active sites are being pinged on a 30-second loop
+                All active sites are being pinged on a 10-minute loop
               </div>
             </div>
             <button
